@@ -4,7 +4,7 @@ Page({
     hours: 0,
     minutes: 0,
     seconds: 0,
-    billing: "in Using"
+    billing: "in riding"
   },
 
   // 页面加载
