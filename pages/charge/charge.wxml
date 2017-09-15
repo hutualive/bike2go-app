@@ -1,0 +1,9 @@
+<!--pages/charge/charge.wxml-->
+<view class="container">
+    <view class="title">Enter the amount to recharge</view>
+    <view class="input-box">
+        <input bindinput="bindInput" />
+    </view>
+
+    <button bindtap="recharge" class="charge">Recharge</button>
+</view>

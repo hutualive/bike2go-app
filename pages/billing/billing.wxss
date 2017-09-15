@@ -1,0 +1,27 @@
+.container{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #f2f2f2;
+}
+.bike-id,.endride{
+	padding: 60rpx 0;
+	flex: 2;
+	width: 100%;
+	text-align: center;
+}
+.billing{
+	text-align: center;
+	width: 100%;
+	flex: 6;
+}
+.billing .billing-content{
+	font-size: 100rpx;
+}
+.endride button{
+	width: 90%;
+	margin-top: 40rpx;
+}
+

@@ -1,0 +1,15 @@
+<!--pages/wallet/index.wxml-->
+<view class="container">
+
+    <view class="balance">
+        <view>
+            <text class="balance-header">My Balance</text>
+        </view>
+
+        <view>
+            <text class="balance-amount">{{balance}}</text>
+        </view>       
+    </view>
+
+    <button bindtap="movetoRecharge" class="btn-recharge">Recharge</button>
+</view>

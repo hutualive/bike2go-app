@@ -1,0 +1,16 @@
+<!--index.wxml-->
+<view class="container">
+  <map id="bike2goMap" 
+  latitude="{{latitude}}" 
+  longitude="{{longitude}}" 
+  scale="{{scale}}"
+
+  controls="{{controls}}" 
+  bindcontroltap="bindcontroltap" 
+ 
+  markers="{{markers}}" 
+  
+  bindregionchange="bindregionchange"  
+
+  show-location/>
+</view>

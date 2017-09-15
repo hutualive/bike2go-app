@@ -1,0 +1,28 @@
+/* pages/wallet/index.wxss */
+.container{
+	background-color: #f2f2f2;
+	height: 100vh;
+}
+
+.balance{
+	background-color: #fff;
+	padding: 50rpx 0;
+	text-align: center;
+}
+.balance-header{
+	font-size: 48rpx;
+}
+.balance-amount{
+	display: inline-block;
+	padding: 50rpx 0;
+	font-size: 100rpx;
+	font-weight: 700;
+}
+
+.btn-recharge{
+	width: 90%;
+	background-color: #009933;
+	margin: 20rpx auto 20rpx;
+	text-align: center;
+  color: #fff;
+}

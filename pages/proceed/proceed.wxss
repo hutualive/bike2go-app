@@ -1,0 +1,33 @@
+.container{
+	width: 100%;
+  height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #f2f2f2;
+}
+.highlight-title{
+	width: 100%;
+	flex: 1;
+	text-align: center;
+	font-size: 100rpx;
+  padding: 60rpx 0;
+}
+.bike-id{
+	width: 100%;
+	flex: 8;
+	text-align: center;
+	font-size: 120rpx;
+  color: #006622;
+	font-weight: 900;
+}
+.tips{
+	font-size: 32rpx;
+  margin-top: 20rpx;
+  width: 100%;
+	flex: 1;
+	text-align: center;
+	padding: 60rpx 0;
+  color: #000;
+}

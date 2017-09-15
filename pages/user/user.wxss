@@ -1,0 +1,44 @@
+/* pages/user/user.wxss */
+.container{
+	background-color: #f2f2f2;
+	height: 100vh;
+}
+
+.user-info{
+	background-color: #fff;
+	padding-top: 60rpx;
+}
+.user-info image{
+	display: block;
+	width: 180rpx;
+	height: 180rpx;
+	border-radius: 50%;
+	margin: 0 auto 40rpx;
+	box-shadow: 0 0 20rpx rgba(0,0,0,.2)
+}
+.user-info text{
+	display: block;
+	text-align: center;
+	padding: 20rpx 20rpx;
+	margin-bottom: 20rpx;
+}
+
+.tapbar{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #fff;
+	padding: 40rpx;
+}
+
+.btn-login{
+	position: absolute;
+	bottom: 60rpx;
+	width: 90%;
+	left: 50%;
+	margin-left: -45%;
+  margin-top: 20rpx;
+}
+.gray{
+	background-color: #ccc;
+}

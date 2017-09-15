@@ -1,0 +1,14 @@
+<!--pages/proceed/proceed.wxml-->
+<view class="container">
+    <view class="highlight-title">
+        <text>Bike ID</text>
+    </view>
+
+    <view class="bike-id">
+        <text>{{bike_id}}</text>
+    </view>
+
+    <view class="tips">
+        <text>Check the bike conditions, we will start charging after {{time}}s</text>
+    </view>
+</view>

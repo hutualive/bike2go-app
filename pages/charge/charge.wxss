@@ -1,0 +1,31 @@
+/* pages/charge/index.wxss */
+.container{
+	background-color: #f2f2f2;
+	height: 100vh;
+}
+.title{
+	background-color: #f2f2f2;
+	padding: 60rpx 100rpx 30rpx 40rpx;
+	font-size: 40rpx;
+	color: #000;
+}
+.input-box{
+	background-color: #fff;
+	margin: 0 auto;
+	padding: 100rpx 0;
+	border-radius: 10rpx;
+	width: 90%;
+}
+.input-box input{
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+.charge{
+	width: 90%;
+	background-color: #009933;
+	margin: 40rpx auto 30rpx;
+	text-align: center;
+  color: #fff;
+}

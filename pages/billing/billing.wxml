@@ -1,0 +1,21 @@
+<!--pages/billing/billing.wxml-->
+<view class="container">
+    <view class="bike-id">
+        <text>Bike ID: {{bike_id}}</text>
+    </view>
+
+    <view class="billing">
+        <view class="billing-title">
+            <text>{{billing}}</text>
+        </view>
+
+        <view class="billing-content">
+            <text>{{hours}}:{{minutes}}:{{seconds}}</text>
+        </view>
+    </view>
+
+    <view class="endride">
+        <button type="warn" disabled="{{disabled}}" bindtap="endRide">End of Trip</button>
+        <button type="primary" bindtap="moveToIndex">Back to Map</button>
+    </view>
+</view>
