@@ -15,7 +15,6 @@
     </view>
 
     <view class="endride">
-        <button type="warn" disabled="{{disabled}}" bindtap="endRide">End of Trip</button>
-        <button type="primary" bindtap="moveToIndex">Back to Map</button>
+        <button type="primary" disabled="{{buttonState}}" bindtap="moveToIndex">Back to Home</button>
     </view>
 </view>

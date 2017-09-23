@@ -1,7 +1,7 @@
 // pages/proceed/proceed.js
 Page({
   data:{
-    time: 9
+    time: 3
   },
 
   // 页面加载
@@ -12,7 +12,7 @@ Page({
     })
 
     // 设置初始计时秒数
-    let time = 9;
+    let time = 3;
     // 开始定时器
     this.timer = setInterval(() => {
       this.setData({

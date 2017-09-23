@@ -34,6 +34,10 @@ App({
 
   globalData: {
     userInfo: null,
-    sysinfo: {}
+    sysinfo: {},
+    bikeStatus: '',
+    hours: 0,
+    minutes: 0,
+    seconds: 0
   }
 })
