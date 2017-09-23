@@ -91,7 +91,36 @@ Page({
     //   })
     // }
 
-    if (that.data.status == '0000000000') {
+    app.globalData.bleEvents.on('lock', that.handleLockEvent)
+
+    // if (that.data.status == '0000000000') {
+
+    //   //var currentH = app.globalData.hours
+    //   //var currentM = app.globaldata.minutes
+    //   //var currentS = app.globaldata.seconds
+
+    //   clearInterval(that.timer);
+    //   that.timer = '';
+    //   that.setData({
+    //     billing: 'the trip duration is',
+    //     buttonState: false
+    //     //hours: currentH,
+    //     //minutes: currentM,
+    //     //seconds: currentS
+    //   })
+    //}
+
+    // //that.setData({bikeStatus: app.globalData.bikeStatus})
+    // console.log('billing-page-bikeStatus-is---', that.data.bikeStatus)
+  },
+
+  handleLockEvent: function (parameters) {
+
+    var that = this
+
+    console.log('---event-emitter-successful---')
+    
+    if (parameters == '0000000000') {
 
       //var currentH = app.globalData.hours
       //var currentM = app.globaldata.minutes
@@ -107,9 +136,6 @@ Page({
         //seconds: currentS
       })
     }
-
-    // //that.setData({bikeStatus: app.globalData.bikeStatus})
-    // console.log('billing-page-bikeStatus-is---', that.data.bikeStatus)
   },
 
   // 携带定时器内容回到地图

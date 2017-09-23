@@ -358,18 +358,20 @@ Page({
 
                               that.setData({ statusFeedback: statusFeedback})
 
-                              if(statusFeedback == '0000000000') {
-                                  // 锁车跳转到计费页
-                                  wx.redirectTo({
-                                    url: '../billing/billing?status=' + statusFeedback + '&bike_id=' + bike_id,
-                                    success: function (res) {
-                                      wx.showToast({
-                                        title: 'lock',
-                                        duration: 2000
-                                      })
-                                    }
-                                  })
-                              }
+                              app.globalData.bleEvents.emit('lock', statusFeedback)
+
+                              // if(statusFeedback == '0000000000') {
+                              //     // 锁车跳转到计费页
+                              //     wx.redirectTo({
+                              //       url: '../billing/billing?status=' + statusFeedback + '&bike_id=' + bike_id,
+                              //       success: function (res) {
+                              //         wx.showToast({
+                              //           title: 'lock',
+                              //           duration: 2000
+                              //         })
+                              //       }
+                              //     })
+                              // }
 
                               // app.globalData.bikeStatus = '0000000000'
                               // //app.globalData.bikeStatus = statusFeedback;

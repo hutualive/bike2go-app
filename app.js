@@ -1,6 +1,14 @@
 //app.js
+var EventEmitter = require('./libraries/events');
+
 App({
+
   onLaunch: function () {
+
+    // bleEvents.on('lock', this.handleBleEvent);
+    // bleEvents.removeListener('lock', this.handleBleEvent);
+    // bleEvents.emit('lock', parameters);
+
     //调用API从本地缓存中获取数据
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -38,6 +46,7 @@ App({
     bikeStatus: '',
     hours: 0,
     minutes: 0,
-    seconds: 0
+    seconds: 0,
+    bleEvents: new EventEmitter()
   }
 })
