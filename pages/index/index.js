@@ -5,6 +5,7 @@ var app = getApp()
 Page({
   data: {
     scale: 18,
+    // ST Shenzhen ／ TCL大厦坐标
     latitude: 22.539087,
     longitude: 113.952255,
 
@@ -19,9 +20,6 @@ Page({
     charId: '',
     chars: [],
     writeResponseFlag: false,
-    feedback: 'Waiting for Command',
-    buttonStatus: 'Send Unlock Command',
-    buttonState: false,
     statusFeedback: ''
   },
 
@@ -34,9 +32,7 @@ Page({
     that.timer = options.timer;
 
     // 1.清空蓝牙设备列表
-    that.resetBLE_Devices();
-    console.log('---beginning-of-development-log---')
-    console.log('---clear-ble-device-list---')    
+    that.resetBLE_Devices();    
 
     // 2.获取并设置当前位置经纬度
     wx.getLocation({
@@ -134,7 +130,7 @@ Page({
 
     // 5. 打开蓝牙扫描附近的单车
     that.toggleBLE_Scan();
-    console.log('---start-ble-scan---');
+
   }, //页面加载结束
 
   // 页面显示
@@ -148,40 +144,27 @@ Page({
 
     // 1. 监听蓝牙状态
     wx.onBluetoothAdapterStateChange(function (res) {
-      console.log("---ble-state-changed, now-is---", res)
     })
 
     // 2. 把扫描到的单车加入到设备列表
     wx.onBluetoothDeviceFound(function (res) {
-      console.log('------------------------------')
-      console.log('---find--new-ble-device---')
-      //console.log(JSON.stringify(res))
 
       // on Andriod: 'res' is an object with one device
       if (app.getPlatform() == "android") {
-        console.log('platform is android')
         that.updateBLE_Devices(res)
       }
 
       // on iOS: 'res' is an object with a key "devices", who is an array
       else if (app.getPlatform() == "ios") {
-        console.log('platform is ios')
         for (var i in res["devices"])
         { that.updateBLE_Devices(res["devices"][i]) }
       }
 
       // on Mac devtools: 'res' is an array
       else if (app.getPlatform() == "devtools") {
-        console.log('------------------------------')
-        console.log('platform is devtools')
-        //for (var i in res["devices"])
-        //{
-        console.log('---callback-founded-device---')
         var device_array = res["devices"][0]
-        console.log(device_array)
         var device = device_array[0]
         that.updateBLE_Devices(device)
-        //}
       }
 
       //sort for UI display
@@ -189,8 +172,6 @@ Page({
 
       for (var k in that.data.device_buffer) {
         dev_list.push(that.data.device_buffer[k])
-        //console.log('--------------------------')
-        //console.log(dev_list)
       }
 
       dev_list.sort(function (a, b) {
@@ -200,7 +181,7 @@ Page({
       })
 
       that.setData({ device_list: dev_list })
-      console.log('---latest-device-list---')
+      console.log('---scanned-device-list---')
       console.log(that.data.device_list)
     })
   }, // 页面显示结束
@@ -252,10 +233,6 @@ Page({
 
       // 点击立即用车，判断当前是否正在计费
       case 2: if (that.timer === "" || that.timer === undefined) {
-        // 没有在计费就扫码连接单车
-        console.log('---scan-to-unlock-clicked---');
-        //console.log('device list: ', that.data.device_list);
-
         // 停止扫描单车
         that.toggleBLE_Scan(false);
 
@@ -263,17 +240,13 @@ Page({
           success: (res) => {
             // 正在解锁通知
             wx.showLoading({
-              title: 'unlock',
+              title: 'unlocking',
               mask: true
             })
 
             var bike_id = res.result
             var device_list = that.data.device_list
-            console.log('---scanned-QR-code---: ', bike_id)
-            console.log('---available-bike-list---: ', device_list)
-
             var scannedBike = that.getBikeByName(device_list, bike_id)
-            console.log('---scanned-bike---: ', scannedBike)
 
             that.setData({ deviceId: scannedBike.deviceId, name: scannedBike.name });
 
@@ -286,8 +259,6 @@ Page({
             wx.createBLEConnection({
               deviceId: that.data.deviceId,
               success: function (res) {
-                // success
-                // console.log(res);
                 /**
                  * 连接成功，后开始获取设备的服务列表
                  */
@@ -295,14 +266,14 @@ Page({
                   deviceId: that.data.deviceId,
                   success: function (res) {
 
-                    console.log('---get-device-services---');
                     that.setData({ services: res.services });
                     console.log('device services:', res.services)
 
                     that.setData({ serviceId: that.data.services[0].uuid });
                     console.log('device serviceId:', that.data.services[0].uuid);
+
                     /**
-                     * 延迟3秒，根据服务UUID获取特征 
+                     * 延迟10秒，增强demo演示效果，然后根据服务UUID获取特征 
                      */
                     setTimeout(function () {
                       wx.getBLEDeviceCharacteristics({
@@ -310,8 +281,6 @@ Page({
                         serviceId: that.data.serviceId,
 
                         success: function (res) {
-
-                          console.log('---get-device-characteristics---');
                           that.setData({ chars: res.characteristics });
                           console.log('device chars:', res.characteristics);
 
@@ -328,7 +297,6 @@ Page({
                             state: true,
                             success: function (res) {
                               // success
-                              console.log('---enable-notification---');
                               console.log('---notification-enabled---: ', res);
                             },
                             fail: function (res) {
@@ -340,7 +308,7 @@ Page({
                           })
 
                           /**
-                           * 设备发过来的数据
+                           * 监听蓝牙设备发过来的数据
                            */
                           wx.onBLECharacteristicValueChange(function (res) {
 
@@ -350,32 +318,10 @@ Page({
                               console.log('---write-response-notification-received---');
                               that.setData({ writeResponseFlag: false });
                             } else {
-                              console.log('---status-feedback-received---');
-                              that.setData({ feedback: 'Bike Locked' });
-                              that.setData({ buttonStatus: 'Send Unlock Command' })
-                              that.setData({ buttonState: false })
                               console.log('charId is:', res.characteristicId, 'status code is :', statusFeedback);
-
                               that.setData({ statusFeedback: statusFeedback})
 
-                              app.globalData.bleEvents.emit('lock', statusFeedback)
-
-                              // if(statusFeedback == '0000000000') {
-                              //     // 锁车跳转到计费页
-                              //     wx.redirectTo({
-                              //       url: '../billing/billing?status=' + statusFeedback + '&bike_id=' + bike_id,
-                              //       success: function (res) {
-                              //         wx.showToast({
-                              //           title: 'lock',
-                              //           duration: 2000
-                              //         })
-                              //       }
-                              //     })
-                              // }
-
-                              // app.globalData.bikeStatus = '0000000000'
-                              // //app.globalData.bikeStatus = statusFeedback;
-                              // console.log('---globalData-bikeStatus---: ', app.globalData.bikeStatus);
+                              app.globalData.bleEvents.emit('locked', that.data.statusFeedback)
                             }
                           })
 
@@ -388,20 +334,21 @@ Page({
 
                               console.log('---retrieve-unlock-key-successful---')
                               var unlock_key = res.data.bike.unlock_key
-                              console.log('---received-unlock-key-is---: ', res.data.bike.unlock_key)
 
                               // 请求密钥成功隐藏等待框
                               wx.hideLoading();
 
+                              // 发送解锁指令
                               that.sendCommand(unlock_key);
 
                               // 携带车号跳转到计费页
                               wx.redirectTo({
                                 url: '../proceed/proceed?bike_id=' + bike_id,
                                 success: function (res) {
+
                                   wx.showToast({
-                                    title: 'done',
-                                    duration: 2000
+                                    title: 'success',
+                                    duration: 3000
                                   })
                                 }
                               })
@@ -409,10 +356,10 @@ Page({
                           })
                         },
                         fail: function (res) {
-                          //console.log(res);
+
                         }
                       })
-                    }, 500);
+                    }, 3000);
                   }
                 })
               },
@@ -468,25 +415,20 @@ Page({
 
       wx.openBluetoothAdapter({
         success: function (res) {
-          console.log("open ble adapter : success", res)
           startDiscovering()
         },
         fail: function (res) {
-          //console.log("open ble adapter : fail", res)
-          //that.setData({ tipinfo: res["errMsg"] })
         }
       })
 
       function startDiscovering() {
+
         that.setData({ scanning: true })
         wx.startBluetoothDevicesDiscovery({
           success: function (res) {
             console.log("---ble-in-scanning--")
-            //that.setData({ scanning: true, tipinfo: '' })
           },
           fail: function (res) {
-            //console.log("start ble scan : fai l: ", res)
-            //that.setData({ tipinfo: res["errMsg"] })
           }
         })
       }
@@ -497,21 +439,9 @@ Page({
       wx.stopBluetoothDevicesDiscovery({
         success: function (res) {
           console.log("---ble-scan-stopped---")
-
-          // wx.closeBluetoothAdapter({
-          //   success: function (res) {
-          //     //console.log("close ble adapter : success:", res)
-               that.setData({ scanning: false })
-          //   },
-          //   fail: function (res) {
-          //     //console.log("close ble adapter : fail:", res)
-          //     that.setData({ tipinfo: res["errMsg"] })
-          //   }
-          // })
+          that.setData({ scanning: false })
         },
         fail: function (res) {
-          //console.log("stop ble scan : fail : ", res)
-          //that.setData({ tipinfo: res["errMsg"] })
         }
       })
     }
@@ -521,8 +451,6 @@ Page({
 
     var ble_dev = this.data.device_buffer
     var devId = dev["deviceId"]
-    console.log('---start-updating-device-list---')
-    console.log(devId)
 
     // find new devices
     if (!ble_dev[devId]) {
@@ -538,13 +466,10 @@ Page({
     }
     else {
       ble_dev[devId]["counter"] += 1
-      //console.log("--- device existing", ble_dev[devId]["counter"])
       console.log("---device already in the list---")
     }
 
     ble_dev[devId]["timestamp"] = Date.now()
-
-    //console.log(ble_dev)
 
     this.setData({ device_buffer: ble_dev })
   },
@@ -553,13 +478,14 @@ Page({
 
     var that = this;
 
+    // stop ble scan
     that.toggleBLE_Scan(false);
 
     var title = e.currentTarget.dataset.title;
     var name = e.currentTarget.dataset.name;
 
     wx.redirectTo({
-      url: '../conn/conn?deviceId=' + title + '&name=' + name,
+      //url: '../conn/conn?deviceId=' + title + '&name=' + name,
       success: function (res) {
         // success
         console.log("---connect-to-target-device---")
@@ -574,15 +500,7 @@ Page({
   }, // end of BLE library 
 
   // start of application logic
-
   // retrieve target bike from device list
-  // getBikeByName: function(device_list, bike_id) {
-  //   for (var i=0, iLen=device_list.length; i<iLen; i++) {
-  //     if (device_list[i].name == bike_id)
-  //       return device_list[i];
-  //   }
-  // },
-
   getBikeByName: function(array, value) {
     var result = array.filter(obj => obj.name == value);
     return result? result[0]: null; // or undefined
@@ -590,24 +508,17 @@ Page({
 
   // 发送数据到设备中
   sendCommand: function (command) {
+
     var that = this;
-    that.setData({ buttonStatus: 'Wait Locked Status' })
-    that.setData({ buttonState: true })
     var charString = command
     var typedArray = new Uint8Array(charString.match(/[\da-f]{2}/gi).map(function (h) {
       return parseInt(h, 16)
     }))
-    console.log('---convert-text-to-typed-array---');
-    console.log('typed array is:', typedArray);
-
-    console.log('---convert-typed-array-to-hex---');
     var arrayBuffer = typedArray.buffer
-    //console.log('array buffer is:', arrayBuffer);
+    // disable write response notification
+    //that.setData({ writeResponseFlag: true });
 
     console.log('---send-unlock-command---');
-    // disable write response notification
-    that.setData({ writeResponseFlag: true });
-
     wx.writeBLECharacteristicValue({
       deviceId: that.data.deviceId,
       serviceId: that.data.serviceId,
@@ -615,12 +526,10 @@ Page({
       value: arrayBuffer,
       success: function (res) {
         // success
-        that.setData({ feedback: 'Bike in Riding' });
         console.log("---sent-unlock-command-successful---");
       },
       fail: function (res) {
         // fail
-        //console.log(res);
       },
       complete: function (res) {
         // complete

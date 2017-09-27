@@ -1,7 +1,8 @@
 // pages/proceed/proceed.js
+
 Page({
   data:{
-    time: 3
+    time: 5
   },
 
   // 页面加载
@@ -12,7 +13,7 @@ Page({
     })
 
     // 设置初始计时秒数
-    let time = 3;
+    let time = 5;
     // 开始定时器
     this.timer = setInterval(() => {
       this.setData({
@@ -27,13 +28,5 @@ Page({
         })
       }
     },1000)
-  },
-
-  // // 点击报障
-  // moveToError: function(){
-  //   clearInterval(this.timer)
-  //   wx.redirectTo({
-  //     url: '../index/index'
-  //   })
-  // }
+  }
 })
