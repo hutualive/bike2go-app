@@ -7,6 +7,7 @@ Page({
     minutes: 0,
     seconds: 0,
     billing: "in riding",
+    lock_key: '003319534400000000',
     buttonState: true
   },
 
@@ -62,7 +63,7 @@ Page({
     var that = this
 
     console.log('---event-emitter-successful---') 
-    if (parameters == '0000000000') {
+    if (parameters == that.data.lock_key) {
 
       clearInterval(that.timer);
       that.timer = '';

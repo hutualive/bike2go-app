@@ -39,10 +39,11 @@ App({
   globalData: {
     userInfo: null,
     sysinfo: {},
-    bikeStatus: '',
     hours: 0,
     minutes: 0,
     seconds: 0,
+    unlockSessionCounter: 0,
+    lockSessionCounter: 0,
     bleEvents: new EventEmitter()
   }
 })

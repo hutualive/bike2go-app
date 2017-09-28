@@ -507,10 +507,15 @@ Page({
   },
 
   // 发送数据到设备中
-  sendCommand: function (command) {
+  sendCommand: function (unlock_key) {
 
     var that = this;
-    var charString = command
+    // var sessionCounter = app.globalData.unlockSessionCounter;
+    // app.globalData.unlockSessionCounter++;
+    // var counter = that.padZero(sessionCounter, 8);
+    // var charString = command + counter;
+    var charString = unlock_key;
+    console.log('---charString-is--- ', charString);
     var typedArray = new Uint8Array(charString.match(/[\da-f]{2}/gi).map(function (h) {
       return parseInt(h, 16)
     }))
@@ -535,6 +540,12 @@ Page({
         // complete
       }
     })
+  },
+
+  padZero: function (num, size) {
+    var s = num + "";
+    while(s.length < size) s = "0" + s;
+    return s;
   },
 
   hex2buf: function (hex) {
